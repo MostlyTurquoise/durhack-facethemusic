@@ -27,4 +27,4 @@ def createSequence(start,length):
         sequence.append(nextChoice)
     print(sequence)
 
-createSequence(0,9)
+#createSequence(0,9)
