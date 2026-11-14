@@ -1,9 +1,13 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, send_file, send_from_directory, render_template
+from pathlib import Path
+
+from .api import api
 
 app = Flask(__name__)
+app.register_blueprint(api, url_prefix="/api")
+app.config["FRONTEND"] = Path("./frontend/")
 
 
 @app.route("/")
 def hello_world():
-    return render_template('index.html')
+    return "<p>Hello, World!</p>"
