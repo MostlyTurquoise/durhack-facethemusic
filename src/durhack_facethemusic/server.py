@@ -11,4 +11,4 @@ app.config["DATABASE"] = Path("./data/stockdata.db")
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+     return render_template('index.html')

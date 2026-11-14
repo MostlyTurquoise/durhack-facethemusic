@@ -13,26 +13,30 @@
   */USD, YEN, SGD
   <p>Select a date from the range, and watch it convert the stock data from that timeframe into music!</p>
   <div class="dateRange">
-    <input type="datetime-local" id="startTime" min="2026-07-01T00:00" max="2026-08-31T23:00">
-    <input type="datetime-local" id="endTime" min="2026-07-01T00:00" max="2026-08-31T23:00">
+    <input type="datetime-local" id="startTime" value="2026-07-01T00:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
+    <input type="datetime-local" id="endTime" value="2026-08-31T23:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
   </div>
 
+
   <button type="submit" id="submitButton" class="inputButton">Input</button>
-  <p class="errorMsg" id="errorMessage"></p>
 
+  <p class="error" id="errorMessage"></p>
+  <audio class="audioPlayer" id="audioPlayer" controls></audio>
   <script>
-    const startInput = document.getElementById('startTime');
-    const endInput = document.getElementById('endTime');
-    const submitButton = document.getElementById('submitButton');
-    const errorMessage = document.getElementById('errorMessage');
-    let getUrl = ''
-    let transformUrl = ''
+    const startInput = document.getElementById("startTime");
+    const endInput = document.getElementById("endTime");
+    const submitButton = document.getElementById("submitButton");
+    const errorMessage = document.getElementById("errorMessage");
+    const audioPlayer = document.getElementById("audioPlayer")
+
+    let getUrl = ""
+    let transformUrl = ""
 
 
-    submitButton.addEventListener('click', () => {
+    submitButton.addEventListener('click', async () => {
       errorMessage.textContent = '';
       if (!startInput.value || !endInput.value) {
-        errorMessage.textContent = 'Must input both start and end dates.';
+        errorMessage.textContent = "Must input both start and end dates.";
         return;
       }
 
@@ -40,21 +44,39 @@
       const endDate = new Date(endInput.value);
 
       if (endDate <= startDate) {
-        errorMessage.textContent = 'End date must be later than start date.';
+        errorMessage.textContent = "End date must be later than start date.";
         return;
       }
 
-      getUrl = "/api/get_data?from=" + startDate.toISOString() +"&to=" + endDate.toISOString();
-      transformUrl = "/api/transform?from=" + startDate.toISOString() +"&to=" + endDate.toISOString();
+      getUrl = "/api/get_data?from=" + startDate.toISOString() + "&to=" + endDate.toISOString();
+      transformUrl = "/api/transform?from=" + startDate.toISOString() + "&to=" + endDate.toISOString();
       errorMessage.textContent = getUrl + transformUrl;
+      try {
+        const response = await fetch(transformUrl);
+        if (!response.ok) {
+          throw new Error("Response status: ${response.status}");
+        }
+        const result = await response.blob();
 
-      fetch()
+        audioPlayer.src = URL.createObjectURL(result);
+        audioPlayer.load();
+
+
+      } 
+      catch (error) {
+        errorMessage.textContent = "Error generating song. " + error.message;
+
+      }
+      
+
+
 
 
     });
 
 
   </script>
+
 
 </body>
 
