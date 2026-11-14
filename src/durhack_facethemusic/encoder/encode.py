@@ -1,11 +1,13 @@
 import musicpy as mp
 
 def encode_data(list):
-    C = mp.chord('C')
-    D = mp.chord('D')
-    G = mp.chord('G')
-    Em = mp.chord('Em')
-    mp.play(C, bpm=80, wait=True)
+    C = mp.get_chord('C','M')
+    D = mp.get_chord('D','M')
+    G = mp.get_chord('G','M')
+    E = mp.get_chord('E','m')
+    mp.play(C+D+G+E, bpm=100, wait=True, instrument='Acoustic Grand Piano')
+
+    
     '''
     melody = mp.chord('C5, C5, G5, G5, A5, A5, G5, F5, F5, E5, E5, D5, D5, C5',
                     duration=[1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/4, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/4],
