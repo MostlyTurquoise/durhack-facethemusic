@@ -17,5 +17,5 @@ def show():
     return {
         "from": start_timestamp.isoformat(),
         "to": end_timestamp.isoformat(),
-        "data": {},
+        "data": [],
     }
