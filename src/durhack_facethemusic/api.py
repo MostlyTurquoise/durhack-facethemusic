@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from flask import Blueprint, request, current_app, send_file, current_app, send_file
+=======
+from flask import Blueprint, request, current_app, send_file
+>>>>>>> origin/main
 import datetime as dt
 import sqlite3
 import io
@@ -6,12 +10,15 @@ import io
 import pydub
 
 from . import encoder
+<<<<<<< HEAD
 import sqlite3
 import io
 
 import pydub
 
 from . import encoder
+=======
+>>>>>>> origin/main
 
 api = Blueprint("api", __name__)
 
@@ -25,6 +32,7 @@ def get_data():
         end_timestamp = dt.datetime.fromisoformat(request.args.get("to", default=""))
     except ValueError:
         return {"error": "Invalid date string(s)"}, 400
+<<<<<<< HEAD
     
     try:
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
@@ -47,6 +55,8 @@ def get_data():
         print("Error occured:", e)
         return {"error": str(e)}, 400
         return {"error": "Invalid date string(s)"}, 400
+=======
+>>>>>>> origin/main
 
     try:
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
@@ -94,7 +104,10 @@ def transform():
 
     try:
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -124,4 +137,8 @@ def transform():
 
     output_stream.seek(0)
 
+<<<<<<< HEAD
     return send_file(output_stream, mimetype="audio/mp3")
+=======
+    return send_file(output_stream, mimetype="audio/mp3")
+>>>>>>> origin/main
