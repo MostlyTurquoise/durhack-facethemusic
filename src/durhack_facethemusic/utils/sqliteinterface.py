@@ -29,9 +29,10 @@ SELECT open FROM usdsgd WHERE timestamp >= :startDate AND timestamp <= :endDate;
 
         res = cur.execute(statement, data).fetchall()
 
+        con.commit()
+        con.close()
         return list(map(lambda x: x[0], res))
 
-interface = Interface("/home/ellew/Code/programmingtesting/stockdata.db")
-
-print(interface.getRange('usdjpy', '2026-07-12', '2026-07-14'))
+#interface = Interface("/path/to/stockdata.db")
+#print(interface.getRange('usdjpy', '2026-07-12', '2026-07-14'))
 #returns 1D list of values in time period inclusive
