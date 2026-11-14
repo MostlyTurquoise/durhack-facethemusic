@@ -10,6 +10,7 @@
 
 <body>
   <h1>Face the Music!</h1>
+  */USD, YEN, SGD
   <p>Select a date from the range, and watch it convert the stock data from that timeframe into music!</p>
   <div class="dateRange">
     <input type="datetime-local" id="startTime" min="2026-07-01T00:00" max="2026-08-31T23:00">
@@ -24,7 +25,8 @@
     const endInput = document.getElementById('endTime');
     const submitButton = document.getElementById('submitButton');
     const errorMessage = document.getElementById('errorMessage');
-    let url = ''
+    let getUrl = ''
+    let transformUrl = ''
 
 
     submitButton.addEventListener('click', () => {
@@ -41,6 +43,10 @@
         errorMessage.textContent = 'End date must be later than start date.';
         return;
       }
+
+      getUrl = "/api/get_data?from=" + startDate.toISOString() +"&to=" + endDate.toISOString();
+      transformUrl = "/api/transform?from=" + startDate.toISOString() +"&to=" + endDate.toISOString();
+      errorMessage.textContent = getUrl + transformUrl;
 
 
 
