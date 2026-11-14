@@ -1,6 +1,11 @@
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request, current_app, send_file
 import datetime as dt
 import sqlite3
+import io
+
+import pydub
+
+from . import encoder
 
 api = Blueprint("api", __name__)
 
@@ -73,12 +78,21 @@ def transform():
                 (start_timestamp, end_timestamp),
             )
             rows = cursor.fetchall()
-            result = [v for (t, v) in rows]
+            data = [v for (t, v) in rows]
     except sqlite3.OperationalError as e:
         print("Error occured:", e)
         return "Error: " + str(e), 400
 
-    raise NotImplementedError()
+    selected = "dummy"
 
-    # pass to encoder function
-    # get resulting mp3 and return it
+    selected_encoder = encoder.all_encoders["dummy"]
+
+    output_audio_segment: pydub.AudioSegment = selected_encoder(data)
+
+    output_stream = io.BytesIO()
+
+    output_audio_segment.export(output_stream, format="mp3")
+
+    output_stream.seek(0)
+
+    return send_file(output_stream, mimetype="audio/mp3")
