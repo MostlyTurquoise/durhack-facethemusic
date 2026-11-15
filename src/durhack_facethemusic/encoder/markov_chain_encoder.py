@@ -127,16 +127,23 @@ def encode_data(data: list[float]):
             [c.set(2, 0.1) for c in chords], lambda a, b: a | (b, 1 / 2)
         )
     )[-1]
+    staggered_chords_downwards = list(
+        itertools.accumulate(
+            [c.set(1, 0.1).down(24) for c in chords], lambda a, b: a | (b, 1 / 2)
+        )
+    )[-1]
 
     music: musicpy.piece_class.piece = mp.build(
         [staggered_chords, "Synth Bass 2"],
         [staggered_chords, 89],
+        [staggered_chords_downwards, "Cello"],
         bpm=100,
     )
     music.add_volume(50, 1)
+    music.add_volume(40, 2)
 
-    song = mpd.daw(2)
+    song = mpd.daw(3)
     song.load(0, "./data/GeneralUser-GS.sf2")
     song.load(1, "./data/GeneralUser-GS.sf2")
-    print(song.instruments(0).get_current_instrument())
+    song.load(2, "./data/GeneralUser-GS.sf2")
     return pydub.effects.normalize(song.export(music, action="get"))
