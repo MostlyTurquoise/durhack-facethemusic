@@ -1,5 +1,7 @@
 import musicpy as mp
 import musicpy.daw as mpd
+import pydub
+import io
 import random
 
 def getKey(data):
@@ -83,20 +85,9 @@ def encode_data(data):
     normalizedData = list(map(lambda x : (x-min(data))/(max(data)-min(data)), data))
     sequence = createSequence(1,len(data),normalizedData)
     melody = createMelody(sequence,scale)
-    
     song = mpd.daw(1,name='test')
     song.load(0, './data/GeneralUser-GS.sf2')
-    return song.export(melody, mode='mp3', action='get')
+    return song.export(melody, filename="test.mp3", mode='mp3', action='export')
 
 sampledata = [161.721, 161.7105, 161.7105, 161.7105, 161.7105, 161.7105, 161.7105, 161.711, 161.7146, 161.7152, 161.7255, 161.715, 161.7205, 161.7215, 161.7296, 161.7365, 161.7225, 161.7225, 161.7223, 161.7223, 161.7224, 161.7248, 161.7246, 161.7246, 161.7246, 161.7316, 161.7311, 161.7311, 161.7301, 161.7303]
-encode_data(sampledata)
-# guitar = (mp.C('CM7', 3, 1/4, 1/8)^2 |
-#           mp.C('G7sus', 2, 1/4, 1/8)^2 |
-#           mp.C('A7sus', 2, 1/4, 1/8)^2 |
-#           mp.C('Em7', 2, 1/4, 1/8)^2 | 
-#           mp.C('FM7', 2, 1/4, 1/8)^2 |
-#           mp.C('CM7', 3, 1/4, 1/8)@1 |
-#           mp.C('AbM7', 2, 1/4, 1/8)^2 |
-#           mp.C('G7sus', 2, 1/4, 1/8)^2) * 2
-
-# mp.play(guitar, bpm=100, instrument=25)
+song = encode_data(sampledata)
