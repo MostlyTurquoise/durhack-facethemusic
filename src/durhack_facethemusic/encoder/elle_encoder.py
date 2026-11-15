@@ -100,7 +100,4 @@ def encode_data(data):
     song.load(0, './data/GeneralUser-GS.sf2')
     song.load(1, './data/GeneralUser-GS.sf2')
     aud = mpd.audio(melody, song, channel_num=2) + 10
-    aud.export("text.mp3", format="mp3")
-
-sampledata = [161.721, 161.7105, 161.7105, 161.7105, 161.7105, 161.7105, 161.7105, 161.711, 161.7146, 161.7152, 161.7255, 161.715, 161.7205, 161.7215, 161.7296, 161.7365, 161.7225, 161.7225, 161.7223, 161.7223, 161.7224, 161.7248, 161.7246, 161.7246, 161.7246, 161.7316, 161.7311, 161.7311, 161.7301, 161.7303]
-song = encode_data(sampledata)
+    return aud.export("test.mp3", format="mp4")
