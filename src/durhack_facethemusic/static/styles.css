@@ -20,6 +20,12 @@ p {
   font-size: 20px;
   text-align:center;
 }
+.success {
+  color:lime;
+  font-family: verdana;
+  font-size: 20px;
+  text-align:center;
+}
 .dateRange {
   display: flex;
   flex-wrap: wrap;
@@ -35,4 +41,9 @@ p {
 .audioPlayer {
   display: block;
   margin: 0 auto; 
+}
+.stockGraph{
+  display: block;
+  margin: 0 auto; 
+  border: 3px solid #FFFFFF;
 }
