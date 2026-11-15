@@ -82,5 +82,6 @@ p {
 }
 .stockGraph {
     display: block;
-    border: 3px solid #ffffff;
+    border: 3px solid #222;
+    border-radius: 0.3rem;
 }

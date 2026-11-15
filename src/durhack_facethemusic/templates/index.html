@@ -40,12 +40,15 @@
                 max="2026-08-31T23:00"
             />
         </div>
-        <select id="encoder" class="encoder">
-            <option value="markov">Markov</option>
-            <option value="harry">Harry</option>
-            <option value="stupid">Stupid</option>
-            <option value="dummy">Dummy</option>
-        </select>
+        <div>
+            Using algorithm:
+            <select id="encoder" class="encoder">
+                <option value="markov">Markov</option>
+                <option value="harry">Harry</option>
+                <option value="stupid">Stupid</option>
+                <option value="dummy">Dummy</option>
+            </select>
+        </div>
 
         <button type="submit" id="submitButton" class="inputButton">
             Generate
@@ -55,13 +58,6 @@
         <p class="success" id="successMessage"></p>
         <audio class="audioPlayer" id="audioPlayer" controls></audio>
         <script>
-            //WIP CANVAS JUST HERE TO TEST.
-            const canvas = document.getElementById("stockGraph");
-            const ctx = canvas.getContext("2d");
-            ctx.moveTo(0, 0);
-            ctx.lineTo(200, 100);
-            ctx.stroke();
-
             const startInput = document.getElementById("startTime");
             const endInput = document.getElementById("endTime");
             const encoder = document.getElementById("encoder");
@@ -91,8 +87,7 @@
                 if (endDate <= startDate) {
                     errorMessage.textContent =
                         "End date must be later than start date.";
-                    successMessage.style.display = "none";
-                    errorMessage.style.display = "block";
+                    successMessage.textContent = "";
                     return;
                 }
 
@@ -109,6 +104,7 @@
                     "&encoder=" +
                     encoder.value;
                 successMessage.textContent = "Generating...";
+                errorMessage.textContent = "";
                 try {
                     const responseTransform = await fetch(transformUrl);
                     const responseGet = await fetch(getUrl);
@@ -157,7 +153,9 @@
 
                     audioPlayer.src = URL.createObjectURL(resultTransform);
                     audioPlayer.load();
+                    audioPlayer.style.display = "block";
                     successMessage.textContent = "Successfully generated song!";
+                    errorMessage.textContent = "";
                 } catch (error) {
                     errorMessage.textContent =
                         "Error generating song. " + error.message;
