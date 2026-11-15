@@ -18,12 +18,12 @@
     <input type="datetime-local" id="startTime" value="2026-07-01T00:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
     <input type="datetime-local" id="endTime" value="2026-08-31T23:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
   </div>
-<select id="encoder" class="encoder">
-  <option value="markov">Markov</option>
-  <option value="harry">Harry</option>
-  <option value="stupid">Stupid</option>
-  <option value="dummy">Dummy</option>
-</select>
+  <select id="encoder" class="encoder">
+    <option value="markov">Markov</option>
+    <option value="harry">Harry</option>
+    <option value="stupid">Stupid</option>
+    <option value="dummy">Dummy</option>
+  </select>
 
 
   <button type="submit" id="submitButton" class="inputButton">Input</button>
@@ -34,11 +34,11 @@
   <script>
 
     //WIP CANVAS JUST HERE TO TEST.
-    
-    
-    
-    
-   
+
+
+
+
+
 
 
 
@@ -49,7 +49,7 @@
     const errorMessage = document.getElementById("errorMessage");
     const successMessage = document.getElementById("successMessage")
     const audioPlayer = document.getElementById("audioPlayer");
-    
+
 
 
 
@@ -88,33 +88,43 @@
         const resultGet = await responseGet.json();
         //errorMessage.textContent = resultGet.data;
 
-        const sortedValues = resultGet.data.sort(function(a, b) {return a - b;});
+        const sortedValues = resultGet.data.toSorted((a, b)=>a-b);
         const low = sortedValues[0];
-        const high = sortedValues[sortedValues.length-1];
+        const high = sortedValues[sortedValues.length - 1];
 
         let canvas = document.getElementById("stockGraph");
         const ctx = canvas.getContext("2d");
+        
 
-        let currentY = 250- (resultGet.data[0]*250/high);
+        let currentY = 250 - ((resultGet.data[0]-low) / (high-low))*250;
+
         let currentX = 0;
-        
 
-        for (let i = 0; i < sortedValues.length-9; i += 10) {
-          let tempX = currentX + 500/sortedValues.length-1;
-          let tempY = 250- (resultGet.data[0]*250/high);
-        
+
+        for (let i = 0; i < sortedValues.length - 9; i += 10) {
+          ctx.beginPath();
+          let tempX = currentX + 5000 / (sortedValues.length - 1);
+          let tempY = 250 - ((resultGet.data[i]-low) / (high-low))*250;
+          console.log(tempX, tempY);
+
           ctx.moveTo(currentX, currentY);
           ctx.lineTo(tempX, tempY);
+          if (currentY >= tempY) {
+            ctx.strokeStyle = "green";
+          }
+          else {
+            ctx.strokeStyle = "red";
+          }
           ctx.stroke();
 
-          currentX = tempX;  
+          currentX = tempX;
           currentY = tempY;
 
-          
-        }
-        
 
-        
+        }
+
+
+
 
 
         audioPlayer.src = URL.createObjectURL(resultTransform);
@@ -135,5 +145,5 @@
 
 </body>
 
-
+d
 </html>
