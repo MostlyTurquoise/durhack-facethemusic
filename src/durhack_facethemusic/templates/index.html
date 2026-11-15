@@ -43,11 +43,20 @@
         <div>
             Using algorithm:
             <select id="encoder" class="encoder">
-                <option value="markov">Markov</option>
-                <option value="harry">Harry</option>
-                <option value="stupid">Stupid</option>
+                <option value="markov">Markov Chain</option>
+                <option value="harry">Chord Progressive</option>
+                <option value="stupid">Simple Notes</option>
                 <option value="dummy">Dummy</option>
             </select>
+        </div>
+        <div>
+          Using currencies:
+          <select id="currencies" class="currencies">
+                <option value="usdjpy">USD -> JPY</option>
+                <option value="eurusd">EUR -> USD</option>
+                <option value="usdsgd">USD -> SGD</option>
+            </select>
+
         </div>
 
         <button type="submit" id="submitButton" class="inputButton">
@@ -65,7 +74,9 @@
             const errorMessage = document.getElementById("errorMessage");
             const successMessage = document.getElementById("successMessage");
             const audioPlayer = document.getElementById("audioPlayer");
+            const currencies = document.getElementById("currencies");
 
+            
             let getUrl = "";
             let transformUrl = "";
             successMessage.textContent = "";
@@ -73,7 +84,13 @@
 
             submitButton.addEventListener("click", async () => {
                 errorMessage.textContent = "";
+                let canvas = document.getElementById("stockGraph");
+                  const cxt = canvas.getContext('2d');
+                  cxt.clearRect(0, 0, canvas.width, canvas.height)
                 if (!startInput.value || !endInput.value) {
+
+                  
+
                     errorMessage.textContent =
                         "Must input both start and end dates.";
                     successMessage.style.display = "none";
@@ -95,14 +112,15 @@
                     "/api/get_data?from=" +
                     startDate.toISOString() +
                     "&to=" +
-                    endDate.toISOString();
+                    endDate.toISOString() + "&encoder=" +
+                    encoder.value + "&conversion=" + currencies.value;
                 transformUrl =
                     "/api/transform?from=" +
                     startDate.toISOString() +
                     "&to=" +
                     endDate.toISOString() +
                     "&encoder=" +
-                    encoder.value;
+                    encoder.value + "&conversion=" + currencies.value;
                 successMessage.textContent = "Generating...";
                 errorMessage.textContent = "";
                 try {
