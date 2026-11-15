@@ -62,6 +62,8 @@ def transform():
             request.args.get("from", default="")
         )
         end_timestamp = dt.datetime.fromisoformat(request.args.get("to", default=""))
+        selected = request.args.get("encoder", default="stupid")
+
     except ValueError:
         return "Invalid date string", 400
 
@@ -86,9 +88,7 @@ def transform():
         print("Error occured:", e)
         return "Error: " + str(e), 400
 
-    selected = "dummy"
-
-    selected_encoder = encoder.all_encoders["dummy"]
+    selected_encoder = encoder.all_encoders[selected]
 
     output_audio_segment: pydub.AudioSegment = selected_encoder(data)
 

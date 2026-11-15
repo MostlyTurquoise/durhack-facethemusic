@@ -11,3 +11,6 @@ data/
 .venv
 
 .jj/*
+data/*
+ 
+temp.mid
