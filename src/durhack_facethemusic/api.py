@@ -18,6 +18,7 @@ def get_data():
             request.args.get("from", default="")
         )
         end_timestamp = dt.datetime.fromisoformat(request.args.get("to", default=""))
+        conversion = request.args.get("conversion", default="eurusd")
     except ValueError:
         return {"error": "Invalid date string(s)"}, 400
 
@@ -25,9 +26,9 @@ def get_data():
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
+                f"""
                 SELECT timestamp, open 
-                FROM eurusd 
+                FROM {conversion} 
                 WHERE unixepoch(timestamp) >= unixepoch(?) 
                 AND unixepoch(timestamp) < unixepoch(?)
                 ORDER BY unixepoch(timestamp) ASC
