@@ -1,50 +1,86 @@
+@font-face {
+    font-family: "BBH Bogle";
+    src: url("/static/BBHBogle-Regular.ttf");
+}
+
 body {
-  background-color: rgb(3, 3, 66);
+    background-color: #eee;
+    color: #222;
+    font-family:
+        "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 h1 {
-  color: white;
-  font-family: verdana;
-  text-align: center;
+    text-align: center;
+    font-family: "BBH Bogle";
+    font-size: 4rem;
+    margin: 1rem;
 }
 
 p {
-  color:white;
-  font-family: verdana;
-  font-size: 20px;
-  text-align:center;
+    font-size: 1rem;
+    text-align: center;
+    width: 50ch;
 }
+
+.success,
 .error {
-  color:red;
-  font-family: verdana;
-  font-size: 20px;
-  text-align:center;
+    background-color: #837f7b;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+}
+
+.error {
+    border-left: 0.4rem solid red;
 }
 .success {
-  color:lime;
-  font-family: verdana;
-  font-size: 20px;
-  text-align:center;
+    border-left: 0.4rem solid lightgreen;
+}
+
+.error:empty,
+.success:empty {
+    display: none;
 }
 .dateRange {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px; 
-  justify-content: center;
-  align-items: flex-end;
-  width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    background-color: #6d6a66;
+    width: fit-content;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    color: white;
+}
+.dateRange input {
+    font-family:
+        "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .inputButton {
-  display: block;
-  margin: 0 auto; 
+    display: block;
+    padding: 0.4rem;
+    width: 6rem;
+    background-color: #5aed9a;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    border: 0.1rem solid #07a34b;
 }
 .audioPlayer {
-  display: block;
-  margin: 0 auto; 
+    display: none;
+    border-radius: 0.3rem;
+    background-color: #837f7b;
+    padding: 0.3rem;
 }
-.stockGraph{
-  /*background-color: #EEEEEE;*/
-  display: block;
-  margin: 0 auto; 
-  border: 3px solid #FFFFFF;
+.stockGraph {
+    display: block;
+    border: 3px solid #ffffff;
 }
