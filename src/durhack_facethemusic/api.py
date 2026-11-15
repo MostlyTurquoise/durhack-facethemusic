@@ -63,6 +63,7 @@ def transform():
         )
         end_timestamp = dt.datetime.fromisoformat(request.args.get("to", default=""))
         selected = request.args.get("encoder", default="stupid")
+        conversion = request.args.get("conversion", default="eurusd")
 
     except ValueError:
         return "Invalid date string", 400
@@ -71,9 +72,9 @@ def transform():
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
+                f"""
                 SELECT timestamp, open 
-                FROM eurusd 
+                FROM {conversion} 
                 WHERE unixepoch(timestamp) >= unixepoch(?) 
                 AND unixepoch(timestamp) < unixepoch(?)
                 ORDER BY unixepoch(timestamp) ASC

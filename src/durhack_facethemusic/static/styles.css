@@ -65,6 +65,12 @@ p {
         "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+select {
+    border-radius: 0.3rem;
+    border: 0.1rem solid #222;
+    padding: 0.1rem;
+    background-color: #eee;
+}
 .inputButton {
     display: block;
     padding: 0.4rem;
