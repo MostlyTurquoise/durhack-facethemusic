@@ -47,6 +47,7 @@
                 <option value="harry">Chord Progressive</option>
                 <option value="stupid">Simple Notes</option>
                 <option value="dummy">Dummy</option>
+                <option value="decoding">Decoding</option>
             </select>
         </div>
         <div>
@@ -63,6 +64,20 @@
             Generate
         </button>
 
+  <p>Select a date from the range, and watch it convert the stock data from that timeframe into music!</p>
+  <canvas class="stockGraph" id="stockGraph" width="500" height="250"></canvas>
+  <br></br>
+  <div class="dateRange">
+    <input type="datetime-local" id="startTime" value="2026-07-01T00:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
+    <input type="datetime-local" id="endTime" value="2026-08-31T23:00" min="2026-07-01T00:00" max="2026-08-31T23:00">
+  </div>
+<select id="encoder" class="encoder">
+  <option value="markov">Markov</option>
+  <option value="harry">Harry</option>
+  <option value="stupid">Stupid</option>
+  <option value="dummy">Dummy</option>
+  <option value="decoding">Decoding</option>
+</select>
         <p class="error" id="errorMessage"></p>
         <p class="success" id="successMessage"></p>
         <audio class="audioPlayer" id="audioPlayer" controls></audio>
