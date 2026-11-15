@@ -68,8 +68,6 @@ def transform():
         return "Invalid date string", 400
 
     try:
-        print("path ", os.path.abspath(current_app.config["DATABASE"]))
-        print(os.path.exists(current_app.config["DATABASE"]))
         with sqlite3.connect(current_app.config["DATABASE"]) as conn:
             cursor = conn.cursor()
             cursor.execute(
