@@ -86,7 +86,7 @@ def transform():
         print("Error occured:", e)
         return "Error: " + str(e), 400
 
-    selected = "markov"
+    selected = "elle"
 
     selected_encoder = encoder.all_encoders[selected]
 

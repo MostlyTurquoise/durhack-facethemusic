@@ -21,7 +21,6 @@ def getKey(data):
 def getNote(scale, number):
     notes = scale.notes
     while number < 0 or number >= 8:
-        print("checking", number)
         if number < 0:
             notes = list(map(lambda x : x-12, notes))
             number += 8
@@ -69,7 +68,6 @@ def createSequence(start,length, normalizedData):
             nextNote = sequence[i] + 7
         sequence.append(nextNote)
         prevWeights = weights
-        print(weights)
     return sequence
 
 def createMelody(sequence,scale):
@@ -79,25 +77,30 @@ def createMelody(sequence,scale):
     chords = []
     main = mp.chord(','.join(list(map(lambda x : x.name + str(x.num), melody))), duration=[1/4 for i in range(len(melody))], interval=[1/4 for i in range(len(melody))])
     for i in range(0,len(melody),4):
+        #print(i)
         root = mp.note(melody[i].name)
         try:
-            fifth = root + 7
             third = scale[scale.index(root) + 2]
         except:
             third = root + 3
-            fifth = third + 3
+        fifth = third + 3
         chords.append(mp.chord(root.name + '3' + ',' + third.name + '3' + ',' + fifth.name + '3', duration=1))
-    piece = mp.piece(tracks=[main, mp.concat(chords,'|')])
+    chordTrack = mp.concat(chords)
+    piece = mp.piece(tracks=[main, chordTrack])
     return piece
 
 def encode_data(data):
+    #print('starting')
     scale = getKey(data)
+    #print('retrieved scale')
     normalizedData = list(map(lambda x : (x-min(data))/(max(data)-min(data)), data))
     sequence = createSequence(1,len(data),normalizedData)
+    #print('created sequence')
     melody = createMelody(sequence,scale)
+    #print('created piece')
     
-    song = mpd.daw(3,name='test')
+    song = mpd.daw(2)
     song.load(0, './data/GeneralUser-GS.sf2')
     song.load(1, './data/GeneralUser-GS.sf2')
-    aud = mpd.audio(melody, song, channel_num=2) + 10
-    return aud.export("test.mp3", format="mp4")
+    #print('hera?')
+    return pydub.effects.normalize(song.export(melody, action="get"))
