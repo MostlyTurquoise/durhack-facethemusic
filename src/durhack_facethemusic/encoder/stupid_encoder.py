@@ -6,6 +6,8 @@ import musicpy.primitives
 import musicpy.piece_class
 import itertools
 
+import pydub.effects
+
 LOW_FREQ = 400
 HIGH_FREQ = 800
 
@@ -27,15 +29,14 @@ def encode_data(data: list[float]):
         )
         for d in wip_data
     ]
-    music: musicpy.piece_class.track = mp.track(
-        list(itertools.accumulate(note_data, lambda a, b: a + b))[-1], bpm=600
+    music: musicpy.piece_class.piece = mp.build(
+        [list(itertools.accumulate(note_data, lambda a, b: a + b))[-1], 15],
+        bpm=600,
     )
-    music.add_volume(127, mode="value")
 
     song = mpd.daw(3, name="hii")
     song.load(0, "./data/GeneralUser-GS.sf2")
     print(song.instruments(0).all_instruments())
     song.instruments(0).change(bank=0, preset=11)
     time.sleep(1)
-    volume_db = 35
-    return song.export(music, action="get") + volume_db
+    return pydub.effects.normalize(song.export(music, action="get"))

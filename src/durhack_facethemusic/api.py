@@ -61,6 +61,8 @@ def transform():
             request.args.get("from", default="")
         )
         end_timestamp = dt.datetime.fromisoformat(request.args.get("to", default=""))
+        selected = request.args.get("encoder", default="stupid")
+
     except ValueError:
         return "Invalid date string", 400
 
@@ -82,8 +84,6 @@ def transform():
     except sqlite3.OperationalError as e:
         print("Error occured:", e)
         return "Error: " + str(e), 400
-
-    selected = "markov"
 
     selected_encoder = encoder.all_encoders[selected]
 
