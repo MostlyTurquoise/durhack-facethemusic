@@ -1,4 +1,4 @@
-from flask import Flask, send_file, send_from_directory, render_template
+from flask import Flask, send_file, send_from_directory
 from pathlib import Path
 
 from .api import api
@@ -10,5 +10,10 @@ app.config["DATABASE"] = Path("./data/stockdata.db")
 
 
 @app.route("/")
-def hello_world():
-     return render_template('index.html')
+def index():
+    return send_file("./frontend/index.html")
+
+
+@app.route("/<path:name>")
+def static_files(name):
+    return send_from_directory(app.config["FRONTEND"], name)

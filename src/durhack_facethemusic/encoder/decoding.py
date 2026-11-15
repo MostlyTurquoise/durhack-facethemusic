@@ -24,6 +24,10 @@ def splitBin(splithex):
 
 def encode_data(data):
     key = data[0]
+    normalize = lambda x : (x-min(data))/(max(data)-min(data))
+    data = list(map(normalize,data))
+    print(data)
+    print(list(map(lambda x : round(x*1000), data)))
     diffs = [round((data[i+1]-data[i])*1000) for i in range(len(data)-1)]
 
     signs = []
@@ -34,53 +38,59 @@ def encode_data(data):
             signs.append(1)
         else:
             signs.append(0)
+    
+    print(diffs)
 
     unsignedHex = [hex(abs(diffs[i])) for i in range(len(diffs))]
 
 
-    splitHex = list(map(split,unsignedHex))[:10]
+    splitHex = list(map(split,unsignedHex))
     splitHex = splitBin(splitHex)
 
-    track1 = ['C5' for _ in range(len(data))]
+    track1 = mp.C('C5')
+    count1 = len(data)
     duration1 = []
-    track2 = ['E5' for _ in range(len(data))]
+    track2 = mp.C('E5')
+    count2 = len(data)
     duration2 = []
-    track3 = ['G6' for _ in range(len(data))]
+    track3 = mp.C('G6')
+    count3 = len(data)
     duration3 = []
 
-    for i in range(track1):
+    for i in range(len(data)):
         if i == 0:
             if splitHex[0][i] == '0':
                 duration1.append(1/4)
-                track1.pop(-1)
+                count1 -= 1
             if splitHex[1][i] == '0':
                 duration2.append(1/4)
-                track2.pop(-1)
+                count2 -= 1
             if splitHex[2][i] == '0':
                 duration3.append(1/4)
-                track3.pop(-1)
+                count3 -= 1
         else:
             if splitHex[0][i] == '0':
-                track1[i] = 0
-                duration[-1] += 1/4
-                track1.pop(-1)
+                duration1[-1] += 1/4
+                count1 -= 1
             if splitHex[1][i] == '0':
-                track1[i] = 0
-                duration[-1] += 1/4
-                track2.pop(-1)
+                duration2[-1] += 1/4
+                count2 -= 1
             if splitHex[2][i] == '0':
-                track1[i] = 0
-                duration[-1] += 1/4
-                track3.pop(-1)
+                duration3[-1] += 1/4
+                count3 -= 1
 
-    chord1 = mp.C(','.join(track1), interval = duration1, duration = duration1)
-    chord2 = mp.C(','.join(track2), interval = duration2, duration = duration2)
-    chord3 = mp.C(','.join(track3), interval = duration3, duration = duration3)
-
+    print('a')
+    chord1 = [track1 for i in range(count1)]
+    print('1')
+    chord2 = [track2 for i in range(count2)]
+    chord3 = [track3 for i in range(count3)]
+    print('b')
     piece = mp.P(tracks=[chord1,chord2,chord3])
+    print('b')
 
     song = mpd.daw(num=3)
-    song.load(0, './data/GeneralUser-GS.sf2')
-    song.load(1, './data/GeneralUser-GS.sf2')
-    song.load(2, './data/GeneralUser-GS.sf2')
-    return pydub.effects.normalize(song.export(music, action="get"))
+    song.load(0, "./data/GeneralUser-GS.sf2")
+    song.load(1, "./data/GeneralUser-GS.sf2")
+    song.load(2, "./data/GeneralUser-GS.sf2")
+    print('c')
+    return pydub.effects.normalize(song.export(piece, action="get"))
