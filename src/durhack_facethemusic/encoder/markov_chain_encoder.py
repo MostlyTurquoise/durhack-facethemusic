@@ -139,5 +139,4 @@ def encode_data(data: list[float]):
     song.load(0, "./data/GeneralUser-GS.sf2")
     song.load(1, "./data/GeneralUser-GS.sf2")
     print(song.instruments(0).get_current_instrument())
-    volume_db = 30
     return pydub.effects.normalize(song.export(music, action="get"))
